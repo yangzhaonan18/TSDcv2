@@ -18,7 +18,7 @@ def find_mask(frame, color):
     greenLower = np.array([50, 80, 80])  # 绿色的阈值 标准H：35:77 S:43:255 V:46:255
     greenUpper = np.array([95, 255, 255])  # V 60 调整到了150
 
-    blueLower = np.array([105, 120, 80])  # 蓝H:100:124 紫色H:125:155
+    blueLower = np.array([105, 120, 46])  # 蓝H:100:124 紫色H:125:155
     blueUpper = np.array([130, 255, 255])
 
     yellowLower = np.array([26, 80, 100])  # 黄色的阈值 标准H：26:34 S:43:255 V:46:255

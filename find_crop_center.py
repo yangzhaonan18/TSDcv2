@@ -1,6 +1,8 @@
 from find_ColorThings  import find_ColorThings
-
+from find_center import find_center
 import cv2
+import numpy as np
+
 
 def find_crop_center(CropThing, color):
     print("def find_crop_center(CropThing, color):  >>>")
@@ -58,8 +60,8 @@ def find_crop_center(CropThing, color):
             cv2.circle(CropThing_show, center[i], int(radius), (0, 0, 255), 2)  # 画圆
         cv2.imshow("CropThing_show", CropThing_show)
         print("after center is :", center)
-        return center, radius
+        return CropThing_show, center, radius
 
     except:
-        return [], -1
+        return None, [], -1
 
