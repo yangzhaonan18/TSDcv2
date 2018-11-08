@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 
-def find_crop_center(CropThing, color):
+def find_crop_center(CropThing, color):  # 返回裁剪后的多个图标的中心
     print("def find_crop_center(CropThing, color):  >>>")
     try:
         CropThing_show = CropThing.copy()

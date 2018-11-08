@@ -23,36 +23,39 @@ def find_mask(frame, color):
 
     yellowLower = np.array([26, 80, 100])  # 黄色的阈值 标准H：26:34 S:43:255 V:46:255
     yellowUpper = np.array([34, 255, 255])  # 有的图 黄色变成红色的了
+    try:
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        red1_mask = cv2.inRange(hsv, redLower01, redUpper01)  # 根据阈值构建掩膜, 红色的两个区域
+        red2_mask = cv2.inRange(hsv, redLower02, redUpper02)
+        red_mask = red1_mask + red2_mask
 
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    red1_mask = cv2.inRange(hsv, redLower01, redUpper01)  # 根据阈值构建掩膜, 红色的两个区域
-    red2_mask = cv2.inRange(hsv, redLower02, redUpper02)
-    red_mask = red1_mask + red2_mask
+        black01_mask = cv2.inRange(hsv, blackLower01, blackUpper01)  # 根据阈值构建掩膜,黑色的区域
+        black02_mask = cv2.inRange(hsv, blackLower02, blackUpper02)  # 根据阈值构建掩膜,黑色的区域
+        black_mask = black01_mask + black02_mask
 
-    black01_mask = cv2.inRange(hsv, blackLower01, blackUpper01)  # 根据阈值构建掩膜,黑色的区域
-    black02_mask = cv2.inRange(hsv, blackLower02, blackUpper02)  # 根据阈值构建掩膜,黑色的区域
-    black_mask = black01_mask + black02_mask
+        yellow_mask = cv2.inRange(hsv, yellowLower, yellowUpper)  # 根据阈值构建掩膜, 黄色的区域
+        green_mask = cv2.inRange(hsv, greenLower, greenUpper)  # 根据阈值构建掩膜, 绿色的区域
 
-    yellow_mask = cv2.inRange(hsv, yellowLower, yellowUpper)  # 根据阈值构建掩膜, 黄色的区域
-    green_mask = cv2.inRange(hsv, greenLower, greenUpper)  # 根据阈值构建掩膜, 绿色的区域
+        blue_mask = cv2.inRange(hsv, blueLower, blueUpper)
+        if color == "black":
+            mask = black_mask
+        elif color == "yellow":
+            mask = yellow_mask
+        elif color == "red":
+            mask = red_mask
+        elif color == "green":
+            mask = green_mask
+        elif color == "blue":
+            mask = blue_mask
+        elif color == "red+blue":
+            mask = red_mask + blue_mask
+        elif color == "green+yellow":
+            mask = green_mask + yellow_mask
 
-    blue_mask = cv2.inRange(hsv, blueLower, blueUpper)
-    if color == "black":
-        mask = black_mask
-    elif color == "yellow":
-        mask = yellow_mask
-    elif color == "red":
-        mask = red_mask
-    elif color == "green":
-        mask = green_mask
-    elif color == "blue":
-        mask = blue_mask
-    elif color == "red+blue":
-        mask = red_mask + blue_mask
-    elif color == "green+yellow":
-        mask = green_mask + yellow_mask
+        else:
+            mask = None
+        return mask
 
-    else:
-        mask = None
-    return mask
+    except:
+        return None
 

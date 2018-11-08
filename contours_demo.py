@@ -2,11 +2,13 @@ import os
 import cv2
 from find_ColorThings import find_ColorThings
 from detection import detection
+from find_class_name import find_class_name
 
-def contours_demo(number, img_path, save_dir, min_s, max_s):
+
+def contours_demo(number, img_path, frame, save_dir, min_s=0.7, max_s=0.93):
     k = 0
     print("def contours_demo(img_path, save_path, min_s, max_s):  >>>")
-    frame = cv2.imread(img_path)
+
     frame = cv2.GaussianBlur(frame, (3, 3), 0)  # 高斯消除噪音
     # frame = cv2.pyrMeanShiftFiltering(frame, 15, 15)  # 神奇 但5秒处理一张图
     # frame_best = frame.copy()
@@ -41,13 +43,28 @@ def contours_demo(number, img_path, save_dir, min_s, max_s):
                 continue
             image, flag = detection(frame, BinColors, color, contours, i)  # 判断是否是 需要识别的对象， 是返回1 否为0
             print(image)
-            if flag == 1:
+            if flag == 1:  # 是需要的对象时
                 print("666" * 50)
                 k += 1
                 print(img_path)
-                save_name = color + str(number) + "_" + str(k) + ".png"
+
+                # direct_index, name = find_class_name(image, color, min_s, max_s)  # 路灯需要这个来判断方向
+
+                # save_path = os.path.join(save_dir, direct_index)
+                # save_path = os.path.join(save_dir, color)
+
+                if not os.path.exists(save_dir):
+                    os.makedirs(save_dir)
+                #     os.makedirs(os.path.join(os.path.join(save_dir, str(direct_index), color)))
+
+                # save_dir = os.path.join(save_dir, color)
+                save_name = str(color) + "+" + str(number) + ".png"
                 save_path = os.path.join(save_dir, save_name)
-                cv2.imwrite(save_path, image)
+                try:
+                    image = cv2.cvtColor(image, cv2.COLOR_BGR2BGRA)
+                    cv2.imwrite(save_path, image)
+                except:
+                    ""
 
 
             # identify_light(SomeThings, contours[i], color, min_s, max_s)

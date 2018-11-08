@@ -19,6 +19,7 @@ def detection(frame, BinColors, color, contours, i):  # 判断是否是需要识
     # 输入只有一个轮廓
 
     BinColors_show = BinColors.copy()
+    print("i = ", i)
     cv2.drawContours(BinColors_show, contours, i, (0, 255, 255), 2)  # 最后一个数字表示线条的粗细 -1时表示填充
     cv2.imshow("detection/BinColors_show", BinColors_show)  # 二值彩图上显示当前处理的轮廓
 
@@ -38,12 +39,14 @@ def detection(frame, BinColors, color, contours, i):  # 判断是否是需要识
     # 下面讨论只符合条件的情况 可能是红绿灯的情况：
     # 红灯 = 红色 + 长窄比为1 + 尺寸（10:50）
     if color == "red" and wh_ratio[1] == 1:
-        if wh_ratio[2][0] > 10 and wh_ratio[2][0] < 50 and color_ratio > 0.5 and color_ratio / cnt_ratio >= 1:
+        if wh_ratio[2][0] > 10 and wh_ratio[2][0] < 100 and color_ratio > 0.5 and color_ratio / cnt_ratio >= 1:
             print(">>> a red  light" * 10)
+            cv2.waitKey(0)
             return CropThing, 1
         if wh_ratio[2][0] > 15 and wh_ratio[2][0] < 150 and color_ratio / cnt_ratio != 1:
             if color_ratio / cnt_ratio < 0.99:  # 图标中间有非红色
                 print(">>> a red sign " * 10)
+                cv2.waitKey(0)
             return CropThing, 1
 
     elif color == "red" and wh_ratio[1] > 1 and wh_ratio[1] < 10:  # 长宽比限制
@@ -51,36 +54,43 @@ def detection(frame, BinColors, color, contours, i):  # 判断是否是需要识
             1] > 15 and color_ratio / cnt_ratio < 1 and color_ratio < 0.85 and color_ratio > 0.3:
 
             print(">>> many red sign " * 10)
+            cv2.waitKey(0)
             CropThing_show, center, radius = find_crop_center(CropThing, color)
             return CropThing_show, 1
 
     if color == "green" and wh_ratio[1] == 1 and color_ratio > 0.4 and wh_ratio[2][0] > 10 and wh_ratio[2][
-        0] < 50 and color_ratio / cnt_ratio >= 1:
+        0] < 100 and color_ratio / cnt_ratio >= 1:
         print(">>> a green light" * 10)
+        cv2.waitKey(0)
         return CropThing, 1
 
     if color == "blue" and wh_ratio[1] == 1:
         print(">>> a blue sign" * 10)
+        cv2.waitKey(0)
         return CropThing, 1
 
     elif color == "blue" and wh_ratio[0] == 1 and wh_ratio[2][0] > 20 and wh_ratio[2][0] < 150 and (
             wh_ratio[1] == 2 or wh_ratio[1] == 3):
         print(">>> many  longitudinal blue sign" * 10)
+        cv2.waitKey(0)
         CropThing_show, center, radius = find_crop_center(CropThing, color)
         return CropThing_show, 1
 
     if color == "yellow" and wh_ratio[1] == 1 and color_ratio > 0.4 and wh_ratio[2][0] > 10 and wh_ratio[2][
-        0] < 50 and color_ratio / cnt_ratio >= 1:
+        0] < 100 and color_ratio / cnt_ratio >= 1:
         print(">>> a yellow light" * 10)
+        cv2.waitKey(0)
         return CropThing, 1
-    cv2.waitKey(0)
+
     if color == "yellow" and wh_ratio[0] == 0 and wh_ratio[1] == 2 and wh_ratio[2][0] > 50 and wh_ratio[2][
         0] < 400 and color_ratio / cnt_ratio < 0.9 and color_ratio > 0.5 and cnt_ratio > 0.9:
         print(">>> a yellow ETC sign " * 10)
+        cv2.waitKey(0)
         return CropThing, 1
 
     elif color == "yellow" and wh_ratio[1] == 1 and color_ratio > 0.5:
         print(">>> mabey a yellow work sign")
+        cv2.waitKey(0)
         return CropThing, 1
 
     # center, radius = find_crop_center(CropThing, color)

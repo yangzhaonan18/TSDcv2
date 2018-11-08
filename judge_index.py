@@ -2,7 +2,7 @@
 import cv2
 import numpy as np
 from cal_point import cal_point
-
+from find_ColorThings import find_ColorThings
 
 
 def judge_index(ColorThings, contours, color, min_s, max_s, max_item):

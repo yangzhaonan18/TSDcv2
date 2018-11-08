@@ -2,12 +2,14 @@
 import cv2
 from find_mask import find_mask
 
-def find_ColorThings(frame, color, num=0, RETR=cv2.RETR_EXTERNAL):
+
+
+def find_ColorThings(frame, color, num=0, RETR=cv2.RETR_EXTERNAL, dilate_num=2):  # 默认返回最外层的轮廓
     print(" def find_ColorThings(frame, color, num=0, RETR=cv2.RETR_EXTERNAL): >>>")
     mask = find_mask(frame, color)
 
-    mask = cv2.dilate(mask, None, iterations=2)  # 膨胀操作，其实先腐蚀再膨胀的效果是开运算，去除噪点
-    mask = cv2.erode(mask, None, iterations=num)  # 腐蚀操作
+    mask = cv2.dilate(mask, None, iterations=dilate_num)  # 膨胀操作，其实先腐蚀再膨胀的效果是开运算，去除噪点
+    # mask = cv2.erode(mask, None, iterations=num)  # 腐蚀操作
     BinColors = cv2.bitwise_and(frame, frame, mask=mask)  # 提取感兴趣的颜色区域  背景黑色+彩色的图像
     # an_ColorThings = cv2.bitwise_not(frame, frame, mask=mask)  # 提取感兴趣的颜色区域  背景黑色+彩色的图像
     # cv2.imshow("an_ColorThings:", an_ColorThings)
@@ -33,7 +35,7 @@ def find_ColorThings(frame, color, num=0, RETR=cv2.RETR_EXTERNAL):
     BinThings = cv2.morphologyEx(BinThings, cv2.MORPH_OPEN, kernel)  # 输出是二值化的图片， 后面用来作为轮廓使用 吧！！！！！
     BinThings, contours, hierarchy = cv2.findContours(BinThings, RETR, cv2.CHAIN_APPROX_SIMPLE)  # 边界是封闭的
 
-    ret, mask = cv2.threshold(BinThings, 190, 255, cv2.THRESH_BINARY)  # 二值图提取mask
+    ret, mask = cv2.threshold(BinThings, 127, 255, cv2.THRESH_BINARY)  # 二值图提取mask
     BinColors = cv2.bitwise_and(frame, frame, mask=mask)  # 二值化中白色对应的彩色部分
     # cv2.imshow("find_ColorThings/BinColors：", BinColors)
     return BinColors, BinThings, contours, hierarchy
