@@ -13,8 +13,8 @@ print("*************** Python ********")
 # work_dir = "C:\\Users\\young\\Desktop\\logotToPS"
 # img_dir = "2002"
 # save_dir = "2002-after"
-work_dir = "C:\\Users\\young\\Desktop\\test1031\\before\\logo"
-img_dir = "4002"
+work_dir = "C:\\Users\\young\\Desktop\\test1109\\before\\logo"
+img_dir = "0026"
 save_dir = img_dir + "-after"
 
 

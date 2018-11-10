@@ -59,10 +59,11 @@ def judge_index(ColorThings, contours, color, min_s, max_s, max_item):
 
         font = cv2.FONT_HERSHEY_SIMPLEX  # 使用默认字体
         # cv2.destroyAllWindows()
-        index_dict = {0: "circle", 1: "<- ", 2: "/\\", 3: "->", 4: "V"}
-        cv2.putText(ColorThings_line, "%s %s %.02f" % (index_dict[direct_index], ilter_num, solidity), (5, 20), font,
-                    0.8, (0, 255, 255), 2)  # 添加文字
-        cv2.imshow("ColorThings_line", ColorThings_line)
+        # index_dict = {0: "circle", 1: "<- ", 2: "/\\", 3: "->", 4: "V"}
+        # cv2.putText(ColorThings_line, "%s %s %.02f" % (index_dict[direct_index], ilter_num, solidity), (5, 20), font,
+        #             0.8, (0, 255, 255), 2)  # 添加文字
+        # cv2.imshow("ColorThings_line", ColorThings_line)
+
         # print("solidity:", solidity)
         # print("ilter_num:", ilter_num)
         # cv2.waitKey(0)  # ********************************

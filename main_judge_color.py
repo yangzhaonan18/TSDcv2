@@ -1,10 +1,42 @@
-# -*- coding:utf-8 -*-
+import os
 import cv2
 import numpy as np
+
+def judge_color_ratio(crop_frame, color):
+    mask = find_mask(crop_frame, color)
+    mask = cv2.dilate(mask, None, iterations=1)
+    BinColors = cv2.bitwise_and(crop_frame, crop_frame, mask=mask)
+    dst = cv2.GaussianBlur(BinColors, (3, 3), 0)  # 彩色图时 高斯消除噪音
+    gray = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)  # 转成灰色图像
+    # cv2.imshow("gray image", gray)
+
+    ret, BinThings = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)  # 灰色图像二值化（变黑白图像）
+    # cloneImage, contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # 边界不是封闭的
+    # cloneImage, contours, hierarchy = cv2.findContours(BinThings, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)  # 边界是封闭的
+    BinThings, contours, hierarchy = cv2.findContours(BinThings, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)  # 边界是封闭的
+    # cv2.imshow("BinThings", BinThings)
+    # cv2.waitKey(0)
+    contours.sort(key=lambda cnt: cv2.contourArea(cnt), reverse=True)
+    if len(contours) > 1:
+        cnt_max = max(contours, key=cv2.contourArea)
+        cnt_area = cv2.contourArea(cnt_max)
+        # print(cnt_area)
+
+        color_ratio = cnt_area / (crop_frame.shape[0] * crop_frame.shape[1])
+        print("color_ratio = ", color_ratio)
+        # cv2.imshow("BinThings", BinThings)
+        # cv2.waitKey(0)
+        return color_ratio
+    if len(contours) == 0:
+        print("color_ratio = 0")
+        return 0
 
 
 def find_mask(frame, color):
     print(" def find_light_mask(frame, color): >>>")
+    whiteLower = np.array([0, 0, 221])  # 白的阈值 标准H：0:180 S:0:30 V:221:255
+    whiteUpper = np.array([180, 30, 255])
+
     blackLower01 = np.array([0, 0, 0])  # 黑的阈值 标准H：0:180 S:0:255 V:0:46:220
     blackUpper01 = np.array([180, 255, 90])
     blackLower02 = np.array([0, 0, 46])  # 灰的阈值 标准H：0:180 S:0:43 V:0:46:220
@@ -18,13 +50,17 @@ def find_mask(frame, color):
     greenLower = np.array([50, 80, 80])  # 绿色的阈值 标准H：35:77 S:43:255 V:46:255
     greenUpper = np.array([95, 255, 255])  # V 60 调整到了150
 
-    blueLower = np.array([105, 120, 46])  # 蓝H:100:124 紫色H:125:155
+    blueLower = np.array([100, 80, 46])  # 蓝H:100:124 紫色H:125:155
     blueUpper = np.array([130, 255, 255])
 
     yellowLower = np.array([26, 80, 100])  # 黄色的阈值 标准H：26:34 S:43:255 V:46:255
     yellowUpper = np.array([34, 255, 255])  # 有的图 黄色变成红色的了
     try:
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+        white_mask = cv2.inRange(hsv, whiteLower, whiteUpper)  # 根据阈值构建掩膜, 红色的两个区域
+
+
         red1_mask = cv2.inRange(hsv, redLower01, redUpper01)  # 根据阈值构建掩膜, 红色的两个区域
         red2_mask = cv2.inRange(hsv, redLower02, redUpper02)
         red_mask = red1_mask + red2_mask
@@ -39,6 +75,8 @@ def find_mask(frame, color):
         blue_mask = cv2.inRange(hsv, blueLower, blueUpper)
         if color == "black":
             mask = black_mask
+        elif color == "white":
+            mask = white_mask
         elif color == "yellow":
             mask = yellow_mask
         elif color == "red":
@@ -51,11 +89,17 @@ def find_mask(frame, color):
             mask = red_mask + blue_mask
         elif color == "green+yellow":
             mask = green_mask + yellow_mask
-
         else:
+            print("Input a wrong color : %f" % color)
             mask = None
         return mask
 
     except:
+        print("have no color", color)
         return None
 
+if __name__ == "__main__":
+    path = "C:\\Users\\young\\Desktop\\just\\2000\\line.png"
+    frame = cv2.imread(path)
+    color = "yellow"
+    flag = judge_color_ratio(frame, color)

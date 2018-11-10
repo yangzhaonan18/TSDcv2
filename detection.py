@@ -2,7 +2,7 @@
 import cv2
 from cal_wh_ratio import cal_wh_ratio
 from Crop_cnt import Crop_cnt
-from cal_color_ratio import cal_color_ratio
+from cal_color_ratio import cal_ratio
 from find_crop_center import find_crop_center
 
 
@@ -25,7 +25,7 @@ def detection(frame, BinColors, color, contours, i):  # 判断是否是需要识
 
     wh_ratio = cal_wh_ratio(contours[i])  # 返回轮廓的比例 [1,判断外接矩形的长宽比例   不应该很大
     CropThing = Crop_cnt(frame, contours[i], color, wh_ratio)  # 裁剪图片， 将图片变成水平的
-    color_ratio, cnt_ratio = cal_color_ratio(CropThing, color)  # 计算轮廓面积 与 凸包面积的比例  不应该很大
+    color_ratio, cnt_ratio, rect_ratio = cal_ratio(CropThing, color)  # 计算轮廓面积 与 凸包面积的比例  不应该很大
     if color_ratio == -1:  # 排除计算异常的情况
         print(">>>  case: color_ratio == -1")
         return None, -1
@@ -35,6 +35,8 @@ def detection(frame, BinColors, color, contours, i):  # 判断是否是需要识
     if wh_ratio[1] > 9:  # 排除长宽比例和合理的情况
         print(">>> case: wh_ratio[1] > 9 :", wh_ratio)
         return None, -1
+    # if rect_ratio < 0.5:  # 矩形度小于0.5的情况 三角形刚好0.5 红绿灯不可能小于0.5
+    #     print(">>> case: rect_ratio < 0.5:  ")
 
     # 下面讨论只符合条件的情况 可能是红绿灯的情况：
     # 红灯 = 红色 + 长窄比为1 + 尺寸（10:50）

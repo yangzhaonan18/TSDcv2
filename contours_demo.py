@@ -62,7 +62,9 @@ def contours_demo(number, img_path, frame, save_dir, min_s=0.7, max_s=0.93):
                 save_path = os.path.join(save_dir, save_name)
                 try:
                     image = cv2.cvtColor(image, cv2.COLOR_BGR2BGRA)
+
                     cv2.imwrite(save_path, image)
+
                 except:
                     ""
 
