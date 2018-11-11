@@ -4,10 +4,12 @@ from find_mask import find_mask
 
 
 
-def find_ColorThings(frame, color, num=0, RETR=cv2.RETR_EXTERNAL, dilate_num=2):  # 默认返回最外层的轮廓
+def find_ColorThings(frame, color, num=0, RETR=cv2.RETR_EXTERNAL, dilate_num=1):  # 默认返回最外层的轮廓
     print(" def find_ColorThings(frame, color, num=0, RETR=cv2.RETR_EXTERNAL): >>>")
     mask = find_mask(frame, color)
-
+    print("mask:", mask)
+    if not mask:
+        return None, None, None, None
     mask = cv2.dilate(mask, None, iterations=dilate_num)  # 膨胀操作，其实先腐蚀再膨胀的效果是开运算，去除噪点
     # mask = cv2.erode(mask, None, iterations=num)  # 腐蚀操作
     BinColors = cv2.bitwise_and(frame, frame, mask=mask)  # 提取感兴趣的颜色区域  背景黑色+彩色的图像

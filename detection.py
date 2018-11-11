@@ -25,7 +25,7 @@ def detection(frame, BinColors, color, contours, i):  # 判断是否是需要识
 
     wh_ratio = cal_wh_ratio(contours[i])  # 返回轮廓的比例 [1,判断外接矩形的长宽比例   不应该很大
     CropThing = Crop_cnt(frame, contours[i], color, wh_ratio)  # 裁剪图片， 将图片变成水平的
-    color_ratio, cnt_ratio, rect_ratio = cal_ratio(CropThing, color)  # 计算轮廓面积 与 凸包面积的比例  不应该很大
+    color_ratio, cnt_ratio, rect_ratio, circle_ratio = cal_ratio(CropThing, color)  # 计算轮廓面积 与 凸包面积的比例  不应该很大
     if color_ratio == -1:  # 排除计算异常的情况
         print(">>>  case: color_ratio == -1")
         return None, -1

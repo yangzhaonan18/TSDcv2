@@ -13,12 +13,13 @@ print("*************** Python ********")
 # work_dir = "C:\\Users\\young\\Desktop\\logotToPS"
 # img_dir = "2002"
 # save_dir = "2002-after"
-work_dir = "C:\\Users\\young\\Desktop\\test1109\\before\\logo"
-img_dir = "0026"
+work_dir = "C:\\Users\\young\\Desktop\\TSD-Signal"
+img_dir = "TSD-Signal-00207"
 save_dir = img_dir + "-after"
 
 
 img_dir = os.path.join(work_dir, img_dir)
+
 save_dir = os.path.join(work_dir, save_dir)
 
 img_list = os.listdir(img_dir)

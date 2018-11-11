@@ -8,8 +8,8 @@ from cal_color_area import cal_color_area
 def cal_ratio(CropThing, color):  # 计算颜色的比例 考虑 单个目标和多个目标的计算过程 方法相同
     print("def cal_ratio(CropThing, color):   >>>")
     # cv2.imshow("cal_ratio/CropThing ", CropThing)  # 直接裁剪后，没有处理过的图片
-    BinColors, BinThings, contours, hierarchy = find_ColorThings(CropThing, color, num=1, RETR=cv2.RETR_CCOMP)
-    if len(contours) == 0:
+    BinColors, BinThings, contours, hierarchy = find_ColorThings(CropThing, color, num=0, RETR=cv2.RETR_CCOMP)
+    if not contours or len(contours) == 0:
         print("cal_ratio // len(contours) == 0")
         return -1, -1, -1, -1
     color_area = cal_color_area(BinColors, contours, hierarchy)

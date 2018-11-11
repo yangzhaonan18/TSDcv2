@@ -101,5 +101,5 @@ def find_mask(frame, color):
 if __name__ == "__main__":
     path = "C:\\Users\\young\\Desktop\\just\\2000\\line.png"
     frame = cv2.imread(path)
-    color = "yellow"
+    color = "white"
     flag = judge_color_ratio(frame, color)

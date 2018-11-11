@@ -10,7 +10,7 @@ def cal_wh_ratio(cnt):
     第二个变量表示宽窄边的比例， 第三个变量表示轮廓的宽度和高度；
     """
     print("run def cal_wh_ratio(cnt) >>>")
-    # x, y, w, h = cv2.boundingRect(cnt)  # 外接矩形
+
     # cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 5)
     # cv2.minEnclosingCircle(cnt)  # 确定面积最大的轮廓的外接圆  返回圆心坐标和半径
     # SomeThings_line = SomeThings.copy()
@@ -47,13 +47,14 @@ def cal_wh_ratio(cnt):
         print("min(heigh, width)", min(heigh, width))
         print("max(heigh, width)", max(heigh, width))
         if min(heigh, width) < 5:
-            return []
+            return None
         rat = max(heigh, width) / min(heigh, width)  # int(rat + 0.5) =  3
-        wh_rat = int(rat + 0.5)  # 四舍五入取整
+        # wh_rat = int(rat + 0.5)  # 四舍五入取整
+        wh_rat = int(rat)
         if width > heigh:
             return [0, wh_rat, [x, y, width, heigh]]  # 0 表示图标是横向的
         else:
             return [1, wh_rat, [x, y, width, heigh]]  # 1 表示图标是纵向的
     except:
-        return []
+        return None
 

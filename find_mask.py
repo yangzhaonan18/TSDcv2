@@ -4,7 +4,7 @@ import numpy as np
 
 
 def find_mask(frame, color):
-    print(" def find_light_mask(frame, color): >>>")
+    print(" def find_mask(frame, color): >>>")
     blackLower01 = np.array([0, 0, 0])  # 黑的阈值 标准H：0:180 S:0:255 V:0:46:220
     blackUpper01 = np.array([180, 255, 90])
     blackLower02 = np.array([0, 0, 46])  # 灰的阈值 标准H：0:180 S:0:43 V:0:46:220
@@ -49,9 +49,10 @@ def find_mask(frame, color):
             mask = blue_mask
         elif color == "red+blue":
             mask = red_mask + blue_mask
-        elif color == "green+yellow":
-            mask = green_mask + yellow_mask
-
+        elif color == "yellow+green":
+            mask = yellow_mask + green_mask
+        elif color == "red+yellow+green":
+            mask = red_mask + yellow_mask + green_mask
         else:
             mask = None
         return mask
