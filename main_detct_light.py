@@ -416,56 +416,57 @@ def find_light_box(frame):
 
     # return or_boxs    # 6666666666666666666666666666666666666666666666666666666666666666666
 
-
     boxs = or_boxs[:4]
+    x_error = 19
+
     print(boxs)
     if len(boxs) == 4:
-        print("len(boxs) == 4:")
+        print("len(boxs) == 4 1 :")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][2], reverse=True)  # by size
         del boxs_cp[0]
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0])  # by x and  保证另外三个等间距时，删除其中最大的那个
-        distance_x1 = boxs_cp[1][2][0] - boxs_cp[0][2][0]
-        distance_x2 = boxs_cp[2][2][0] - boxs_cp[1][2][0]
+        distance_x1 = abs(boxs_cp[1][2][0] - boxs_cp[0][2][0])
+        distance_x2 = abs(boxs_cp[2][2][0] - boxs_cp[1][2][0])
         distance_y1 = abs(boxs_cp[1][2][1] - boxs_cp[0][2][1])
         distance_y2 = abs(boxs_cp[2][2][1] - boxs_cp[1][2][1])
         print("distance_x1, distance_x2 = ", distance_x1, distance_x2)
         print("distance_y1, distance_y2 = ", distance_y1, distance_y2)
-        if abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x1 < 300 and distance_y2 < 10:
+        if abs(distance_x2 - distance_x1) < x_error and abs(distance_y2 - distance_y1) < 10 and distance_x1 > 40 and distance_x2 > 40 and distance_x1 < 300 and distance_y2 < 10:
             return boxs_cp[:3]
 
     boxs = or_boxs[:4]
     print(boxs)
     if len(boxs) == 4:
-        print("len(boxs) == 4:")
+        print("len(boxs) == 4 2 :")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0])  # by size
         del boxs_cp[0]
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0])  # by x and  保证另外三个等间距时，删除其中最大的那个
-        distance_x1 = boxs_cp[1][2][0] - boxs_cp[0][2][0]
-        distance_x2 = boxs_cp[2][2][0] - boxs_cp[1][2][0]
+        distance_x1 = abs(boxs_cp[1][2][0] - boxs_cp[0][2][0])
+        distance_x2 = abs(boxs_cp[2][2][0] - boxs_cp[1][2][0])
         distance_y1 = abs(boxs_cp[1][2][1] - boxs_cp[0][2][1])
         distance_y2 = abs(boxs_cp[2][2][1] - boxs_cp[1][2][1])
         print("distance_x1, distance_x2 = ", distance_x1, distance_x2)
         print("distance_y1, distance_y2 = ", distance_y1, distance_y2)
-        if abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x1 < 300 and distance_y2 < 10:
+        if abs(distance_x2 - distance_x1) < x_error and abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x1 < 300 and distance_y2 < 10:
             return boxs_cp[:3]
 
     boxs = or_boxs[:4]
     print(boxs)
     if len(boxs) == 4:
-        print("len(boxs) == 4:")
+        print("len(boxs) == 4 3 :")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0])  # by size
         del boxs_cp[-1]
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0])  # by x and  保证另外三个等间距时，删除其中最大的那个
-        distance_x1 = boxs_cp[1][2][0] - boxs_cp[0][2][0]
-        distance_x2 = boxs_cp[2][2][0] - boxs_cp[1][2][0]
+        distance_x1 = abs(boxs_cp[1][2][0] - boxs_cp[0][2][0])
+        distance_x2 = abs(boxs_cp[2][2][0] - boxs_cp[1][2][0])
         distance_y1 = abs(boxs_cp[1][2][1] - boxs_cp[0][2][1])
         distance_y2 = abs(boxs_cp[2][2][1] - boxs_cp[1][2][1])
         print("distance_x1, distance_x2 = ", distance_x1, distance_x2)
         print("distance_y1, distance_y2 = ", distance_y1, distance_y2)
-        if abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x1 < 300 and distance_y2 < 10:
+        if abs(distance_x2 - distance_x1) < x_error and abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x1 < 300 and distance_x2 > 30 and distance_x2 < 300 and distance_y2 < 10:
             return boxs_cp[:3]
 
 
@@ -473,11 +474,11 @@ def find_light_box(frame):
 
     boxs = or_boxs[:3]
     if len(boxs) == 3:
-        print("len(boxs) == 3:")
+        print("len(boxs) == 3 1:")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0], reverse=True)  # left to right by x
-        distance_x1 = boxs_cp[1][2][0] - boxs_cp[0][2][0]
-        distance_x2 = boxs_cp[2][2][0] - boxs_cp[1][2][0]
+        distance_x1 = abs(boxs_cp[1][2][0] - boxs_cp[0][2][0])
+        distance_x2 = abs(boxs_cp[2][2][0] - boxs_cp[1][2][0])
         distance_y1 = abs(boxs_cp[1][2][1] - boxs_cp[0][2][1])
         distance_y2 = abs(boxs_cp[2][2][1] - boxs_cp[1][2][1])
 
@@ -485,30 +486,30 @@ def find_light_box(frame):
         area_02 = int(boxs_cp[1][2][2] * boxs_cp[1][2][3] / (boxs_cp[0][2][2] * boxs_cp[0][2][3]) + 0.5)
         area_bi = max(area_01, area_02)
 
-        if abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x1 < 200 and distance_y2 < 10 and area_bi == 1:
+        if abs(distance_x2 - distance_x1) < x_error and abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x2 > 30 and distance_x1 < 200 and distance_y2 < 10 and area_bi == 1:
             return boxs_cp[:3]
 
     boxs = or_boxs[:3]
     if len(boxs) == 3:
-        print("len(boxs) == 3:")
+        print("len(boxs) == 3 2 :")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][2], reverse=True)  # by size
         del boxs_cp[0]
-        distance_x1 = boxs_cp[1][2][0] - boxs_cp[0][2][0]
-        # distance_x2 = boxs_cp[2][2][0] - boxs_cp[1][2][0]
+        distance_x1 = abs(boxs_cp[1][2][0] - boxs_cp[0][2][0])
+        # distance_x2 = abs(boxs_cp[2][2][0] - boxs_cp[1][2][0])
         distance_y1 = abs(boxs_cp[1][2][1] - boxs_cp[0][2][1])
-        # distance_y2 = abs(boxs_cp[2][2][1] - boxs_cp[1][2][1])
+        # distance_y2 = abs(abs(boxs_cp[2][2][1] - boxs_cp[1][2][1]))
         area_01 = int(boxs_cp[0][2][2] * boxs_cp[0][2][3] / (boxs_cp[1][2][2] * boxs_cp[1][2][3]) + 0.5)
         area_02 = int(boxs_cp[1][2][2] * boxs_cp[1][2][3] / (boxs_cp[0][2][2] * boxs_cp[0][2][3]) + 0.5)
         area_bi = max(area_01, area_02)
         print("area_bi == 1", area_bi)
-        if distance_x1 > 30 and distance_x1 < 200 and distance_y1 < 10 and area_bi == 1:
+        if abs(distance_x2 - distance_x1) < x_error and abs(distance_y2 - distance_y1) < 10 and distance_x1 > 30 and distance_x1 < 200 and distance_y1 < 10 and area_bi == 1:
             print("len(boxs) == 3:")
             return boxs_cp[:2]
 
     boxs = or_boxs[:3]
     if len(boxs) == 3:
-        print("len(boxs) == 3:")
+        print("len(boxs) == 3 3 :")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0], reverse=True)  # 删除右边那个
         del boxs_cp[-1]
@@ -524,10 +525,9 @@ def find_light_box(frame):
             print("len(boxs) == 3:")
             return boxs_cp[:2]
 
-
     boxs = or_boxs[:3]
     if len(boxs) == 3:
-        print("len(boxs) == 3:")
+        print("len(boxs) == 3 4:")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][0], reverse=True)  # by size  x 删除三个中 最左边的那个
         del boxs_cp[0]
@@ -547,7 +547,7 @@ def find_light_box(frame):
 
     boxs = or_boxs[:2]
     if len(boxs) == 2:
-        print("len(boxs) == 2:")
+        print("len(boxs) == 2 1:")
         boxs_cp = boxs.copy()
         boxs_cp = sorted(boxs_cp, key=lambda box: box[2][2], reverse=True)  # by x
         # del boxs_cp[0]
@@ -562,13 +562,38 @@ def find_light_box(frame):
         print(distance_x1 )
         print(distance_y1)
         print(area_bi)
-        if distance_x1 > 30 and distance_x1 < 250 and distance_y1 < 10 and int(area_bi) == 1:
+        if distance_x1 > 35 and distance_x1 < 250 and distance_y1 < 10 and int(area_bi) == 1:
             return boxs_cp[:2]
+        else:
+            print("Dissatisfaction")
     # boxs = sorted(boxs, key=lambda box: box[2][1])
-    else:
-        print("retu rn None")
-        print(or_boxs)
-        return or_boxs
+
+    print("retu rn None")
+
+    return None
+
+
+def dectect_light(frame):
+    frame = frame[0:400, 0:1280]
+    boxs = find_light_box(frame)  # return box of light
+
+    if boxs:
+        frame_show = frame.copy()
+        for box in boxs[:]:
+            Crop_frame = frame_show[int(box[2][1]):int(box[2][1] + box[2][3]), int(box[2][0]):int(box[2][0] + box[2][2])]
+            light_type = judge_light_type(Crop_frame)
+            box[0] = light_type  # update light
+        count = 0
+        for box in boxs:
+            if box[0] == "27":
+                count += 1
+        if count >= 2:
+            return None
+        for box in boxs:
+            box[2][0] = box[2][0] + box[2][2]/2 + 0.5
+            box[2][1] = box[2][1] + box[2][3]/2 + 0.5
+        return boxs  # box with type
+
 
 
 
@@ -580,17 +605,18 @@ if __name__ == "__main__":
     #     print("name = " * 88)
     #     print(name)
     #     img_path = os.path.join(img_path, name)
-    # #
+    #
 
-    img_path = "C:\\Users\\young\\Desktop\\TSD-Signal\\TSD-Signal-00212\\TSD-Signal-00212-00007.png"
+    img_path = "C:\\Users\\young\\Desktop\\TSD-Signal\\TSD-Signal-00207\\TSD-Signal-00207-00008.png"
     # img_path = "C:\\Users\\young\\Desktop\\just\\2000\\TSD-Signal-00207-00002.png"
     save_dir = "C:\\Users\\young\\Desktop\\just\\2000-after"
     frame = cv2.imread(img_path)
+    frame = frame[0:1024, 0:1280]   # Upper part
     # print(frame.shape)
     # frame = cv2.GaussianBlur(frame, (3, 3), 0)  # 高斯消除噪音
     # contours_demo(number, img_path, frame, save_dir)
     #  在图片中找到红色的目标并返回 编号和坐标
-    boxs = find_light_box(frame)
+    boxs = find_light_box(frame)  # return box
     if boxs:
 
         # print("Final box_list = ", boxs)
@@ -603,15 +629,18 @@ if __name__ == "__main__":
             # cv2.imshow("Crop_frame", cv2.resize(Crop_frame, (100, 100)))
             # cv2.waitKey(0)
             # judge_index(Crop_frame)
-            light_type = judge_light_type(Crop_frame)
+            light_type = judge_light_type(Crop_frame)  # return type
             print("light_type", light_type)
-
+            box[0] = light_type
             cv2.rectangle(frame_show, (int(box[2][0]), int(box[2][1])),
                           (int(box[2][0] + box[2][2]), int(box[2][1] + box[2][3])),
                           (0, 0, 255), 2)
             cv2.putText(frame_show, light_type, (int(box[2][0]), int(box[2][1]) + 50), cv2.FONT_HERSHEY_SIMPLEX,
                         0.5, (0, 0, 255), lineType=cv2.LINE_AA)
+            cv2.imshow("Final frame_show :", frame_show)
 
-        print("Final boxs = ", boxs)
-        cv2.imshow("Final frame_show :", frame_show)
-        cv2.waitKey(0)
+
+
+    box2 = dectect_light(frame)  # return box and type
+    print("Final box2222 removx 27 type= ", box2)
+    cv2.waitKey(0)

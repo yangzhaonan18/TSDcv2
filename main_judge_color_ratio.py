@@ -6,9 +6,10 @@ def judge_color_ratio(crop_frame, color):
     mask = find_mask(crop_frame, color)
     mask = cv2.dilate(mask, None, iterations=1)
     BinColors = cv2.bitwise_and(crop_frame, crop_frame, mask=mask)
+    cv2.imshow("BinColors image", BinColors)
+    cv2.waitKey(0)
     dst = cv2.GaussianBlur(BinColors, (3, 3), 0)  # 彩色图时 高斯消除噪音
     gray = cv2.cvtColor(dst, cv2.COLOR_BGR2GRAY)  # 转成灰色图像
-    # cv2.imshow("gray image", gray)
 
     ret, BinThings = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)  # 灰色图像二值化（变黑白图像）
     # cloneImage, contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # 边界不是封闭的
@@ -17,10 +18,10 @@ def judge_color_ratio(crop_frame, color):
     # cv2.imshow("BinThings", BinThings)
     # cv2.waitKey(0)
     contours.sort(key=lambda cnt: cv2.contourArea(cnt), reverse=True)
-    if len(contours) > 1:
+    if len(contours) > 0:
         cnt_max = max(contours, key=cv2.contourArea)
         cnt_area = cv2.contourArea(cnt_max)
-        # print(cnt_area)
+        print(cnt_area)
 
         color_ratio = cnt_area / (crop_frame.shape[0] * crop_frame.shape[1])
         print("color_ratio = ", color_ratio)
@@ -53,7 +54,7 @@ def find_mask(frame, color):
     blueLower = np.array([100, 80, 46])  # 蓝H:100:124 紫色H:125:155
     blueUpper = np.array([130, 255, 255])
 
-    yellowLower = np.array([26, 80, 100])  # 黄色的阈值 标准H：26:34 S:43:255 V:46:255
+    yellowLower = np.array([20, 80, 50])  # 黄色的阈值 标准H：26:34 S:43:255 V:46:255
     yellowUpper = np.array([34, 255, 255])  # 有的图 黄色变成红色的了
     try:
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -99,7 +100,7 @@ def find_mask(frame, color):
         return None
 
 if __name__ == "__main__":
-    path = "C:\\Users\\young\\Desktop\\just\\2000\\line.png"
+    path = "C:\\Users\\young\\Desktop\\just\\2000\\236.jpg"
     frame = cv2.imread(path)
-    color = "white"
+    color = "yellow"
     flag = judge_color_ratio(frame, color)

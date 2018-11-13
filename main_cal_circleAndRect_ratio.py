@@ -16,8 +16,8 @@ def cal_circleAndRect_ratio(crop_frame, color):
     # cloneImage, contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)  # 边界不是封闭的
     # cloneImage, contours, hierarchy = cv2.findContours(BinThings, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)  # 边界是封闭的
     BinThings, contours, hierarchy = cv2.findContours(BinThings, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)  # 边界是封闭的
-    # cv2.imshow("BinThings", BinThings)
-    # cv2.waitKey(0)
+    cv2.imshow("BinThings", BinThings)
+    cv2.waitKey(0)
     # contours.sort(key=lambda cnt: cv2.contourArea(cnt), reverse=True)
     if len(contours) > 1:
         cnt_max = max(contours, key=cv2.contourArea)
@@ -47,7 +47,7 @@ def cal_circleAndRect_ratio(crop_frame, color):
 def find_mask(frame, color):
     print(" def find_light_mask(frame, color): >>>")
     whiteLower = np.array([0, 0, 46])  # 白的阈值 标准H：0:180 S:0:30 V:221:255
-    whiteUpper = np.array([180, 43, 255])
+    whiteUpper = np.array([180, 43, 255])  # white and gray
 
     blackLower01 = np.array([0, 0, 0])  # 黑的阈值 标准H：0:180 S:0:255 V:0:46:220
     blackUpper01 = np.array([180, 255, 90])
@@ -101,6 +101,8 @@ def find_mask(frame, color):
             mask = red_mask + blue_mask
         elif color == "green+yellow":
             mask = green_mask + yellow_mask
+        elif color == "red+blue+white":
+            mask = red_mask + blue_mask + white_mask
         else:
             print("Input a wrong color : %f" % color)
             mask = None
@@ -116,8 +118,13 @@ def find_mask(frame, color):
 
 
 if __name__ == "__main__":
-    path = "C:\\Users\\young\\Desktop\\just\\2000\\9.png"
+    path = "C:\\Users\\young\\Desktop\\just\\2000\\rect.jpg"
     crop_frame = cv2.imread(path)
+    cv2.imshow("asdf", crop_frame)
+    # cv2.waitKey(0)
     color = "blue"
-    ratio = cal_circleAndRect_ratio(crop_frame, color)  #circle or rect
-    print(ratio)
+    a, b = cal_circleAndRect_ratio(crop_frame, color)  #circle or rect
+    if a > b:
+        print(">")
+    else:
+        print("<=")
